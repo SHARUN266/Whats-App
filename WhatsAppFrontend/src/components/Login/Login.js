@@ -8,6 +8,7 @@ import { actionTypes } from "../Contextapi/reducer";
 
 const Login = () => {
   const [state, dispatch] = useStateValue();
+  
   console.log(state);
   const signup = async (e) => {
     e.preventDefault();

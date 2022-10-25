@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Sidebar.css";
 import { Avatar, IconButton } from "@mui/material";
 import {
@@ -9,12 +9,16 @@ import {
 } from "@mui/icons-material";
 
 import SideBarChat from "../SideBarChat/SideBarChat";
+import InfoDrawerBar from "../drawer/InfoDrawerBar";
+import { useStateValue } from "../Contextapi/StateProvider";
 
 const Sidebar = () => {
+   const [openDrawer,setOpenDrawer]=useState(false)
+   const [{user}]=useStateValue()
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar />
+        <Avatar src={user.photoURL} onClick={()=>setOpenDrawer(true)} />
         <div className="sidebar__headerRight">
           <IconButton>
             <DonutLarge />
@@ -23,7 +27,7 @@ const Sidebar = () => {
             <Chat />
           </IconButton>
           <IconButton>
-            <MoreVert />
+            <MoreVert onClick={()=>setOpenDrawer(true)}  />
           </IconButton>
         </div>
       </div>
@@ -38,6 +42,7 @@ const Sidebar = () => {
 
         <SideBarChat />
       </div>
+      <InfoDrawerBar  open={openDrawer} setOpen={setOpenDrawer} />
     </div>
   );
 };

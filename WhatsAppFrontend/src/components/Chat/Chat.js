@@ -7,15 +7,16 @@ import {
   SearchOutlined,
 } from "@mui/icons-material";
 import "./Chat.css";
+import { useStateValue } from "../Contextapi/StateProvider";
 
 
 const Chat = () => {
- 
+   const [{user}] =useStateValue()
 
   return (
     <div className="chat">
       <div className="chat__header">
-        <Avatar />
+        <Avatar src={user.photoURL} />
         <div className="chat__headerInfo">
           <h3>  Welcome to Whatsapp</h3>
           <p>last seen {new Date(Date.now()).toString().slice(0, 25)}</p>
@@ -53,7 +54,7 @@ const Chat = () => {
         <form>
           <input
             type="text"
-            placeholder="enter a message"
+            placeholder="Message"
            
           />
           <button > send message</button>
