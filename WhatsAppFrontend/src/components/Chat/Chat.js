@@ -8,6 +8,7 @@ import {
 } from "@mui/icons-material";
 import "./Chat.css";
 import { useStateValue } from "../Contextapi/StateProvider";
+import EmptyChat from "./EmptyChat";
 
 
 const Chat = () => {
@@ -15,8 +16,8 @@ const Chat = () => {
 
   return (
     <div className="chat">
-      <div className="chat__header">
-        <Avatar src={user.photoURL} />
+      {/* <div className="chat__header">
+        <Avatar/>
         <div className="chat__headerInfo">
           <h3>  Welcome to Whatsapp</h3>
           <p>last seen {new Date(Date.now()).toString().slice(0, 25)}</p>
@@ -32,8 +33,8 @@ const Chat = () => {
             <MoreVert />
           </IconButton>
         </div>
-      </div>
-      <div className="chat__body">
+      </div> */}
+      {/* <div className="chat__body">
         {/* {messages.map((messages, index) => (
           <p
             className={`chat__message ${
@@ -48,8 +49,8 @@ const Chat = () => {
             </span>
           </p>
         ))} */}
-      </div>
-      <div className="chat__footer">
+      {/* </div> */}
+      {/* <div className="chat__footer">
         <InsertEmoticon />
         <form>
           <input
@@ -59,7 +60,8 @@ const Chat = () => {
           />
           <button > send message</button>
         </form>
-      </div>
+      </div> */}
+      <EmptyChat/>
     </div>
   );
 };
