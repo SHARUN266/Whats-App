@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./SideBarChat.css";
 import { Avatar } from "@mui/material";
 
 import { Link } from "react-router-dom";
 
-const SideBarChat = () => {
-  const [addNewChat, setAddNewChat] = useState(false);
 
-  return !addNewChat ? (
-    <Link to={`/rooms/1`}>
-      <div className="sidebarChat">
-        <Avatar />
-        <div className="sidebarChat__info">
-          <h2>Sharun</h2>
-        </div>
-      </div>
-    </Link>
-  ) : (
+const SideBarChat = (props) => {
+ 
+
+
+  return (
+    <Link key={props.uid} to={`/rooms/${props.uid}`}>
     <div className="sidebarChat">
-      <h2> Add NewChat</h2>
+      <Avatar src={props.photoURL} />
+      <div className="sidebarChat__info">
+        <h2>{props.displayName}</h2>
+      </div>
     </div>
-  );
+    </Link>
+  )
 };
 
 export default SideBarChat;

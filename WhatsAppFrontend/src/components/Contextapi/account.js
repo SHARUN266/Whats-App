@@ -12,6 +12,11 @@ const AccountProvider = ({ children }) => {
   const [activeUsers, setActiveUsers] = useState([]);
 
   const [newMessageFlag, setNewMessageFlag] = useState(false);
+  const getuserFromLocalStore=async()=>{
+    console.log("dcdccvwre")
+   let user= await JSON.parse(localStorage.getItem("user"))
+   setAccount(user)
+  }
 
   return (
     <AccountContext.Provider
@@ -26,6 +31,7 @@ const AccountProvider = ({ children }) => {
         setIsCookie,
         activeUsers,
         setActiveUsers,
+        getuserFromLocalStore,
         newMessageFlag,
         setNewMessageFlag,
       }}

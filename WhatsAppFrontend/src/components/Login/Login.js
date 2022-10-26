@@ -10,16 +10,18 @@ import { addUser } from "../service/api";
 
 const Login = () => {
 
-  const {setAccount,showloginButon,setShowloginButton}=useContext(AccountContext)
+  const {setAccount,getuserFromLocalStore,showloginButon,setShowloginButton}=useContext(AccountContext)
   const signup = async (e) => {
     e.preventDefault();
 
     try {
       let value = await signInWithPopup(auth, provider);
-      await addUser(value)
-      console.log(value.user.accessToken)
+     
+      console.log(value.user)
       document.cookie=`GoogleSharunAuth=${value.user.accessToken}`
-      setAccount(value)
+      await addUser(value.user)
+      localStorage.setItem("user",JSON.stringify(value.user))
+      getuserFromLocalStore()
       
       setShowloginButton(false)
     } catch (err) {

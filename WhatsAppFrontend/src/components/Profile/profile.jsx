@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { Box, styled } from "@mui/system";
-import React, { useReducer } from "react";
+import React, { useContext, useReducer } from "react";
+import { AccountContext } from "../Contextapi/account";
 
 const ImageContainer = styled(Box)`
   display: flex;
@@ -36,16 +37,16 @@ const DescripstionContainer=styled(Box)`
      }
 `;
 function Profile() {
- 
+  let user=JSON.parse(localStorage.getItem("user"))
   return (
     <>
       <ImageContainer>
-        <Image  alt="dp" />
+        <Image src={user.photoURL} alt="dp" />
       </ImageContainer>
 
       <BoxWrapper>
         <Typography>Your name</Typography>
-        <Typography>Sharun </Typography>
+        <Typography>{user.displayName} </Typography>
       </BoxWrapper>
       <DescripstionContainer>
         <Typography>
