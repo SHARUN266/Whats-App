@@ -6,6 +6,7 @@ import GoogleButton from "react-google-button";
 import { useContext } from "react";
 import { AccountContext } from "../Contextapi/account";
 import { useNavigate } from "react-router-dom";
+import { addUser } from "../service/api";
 
 const Login = () => {
 
@@ -15,6 +16,7 @@ const Login = () => {
 
     try {
       let value = await signInWithPopup(auth, provider);
+      await addUser(value)
       console.log(value.user.accessToken)
       document.cookie=`GoogleSharunAuth=${value.user.accessToken}`
       setAccount(value)
