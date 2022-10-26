@@ -7,12 +7,12 @@ import {
   SearchOutlined,
 } from "@mui/icons-material";
 import "./Chat.css";
-import { useStateValue } from "../Contextapi/StateProvider";
+
 import EmptyChat from "./EmptyChat";
 
 
 const Chat = () => {
-   const [{user}] =useStateValue()
+
 
   return (
     <div className="chat">

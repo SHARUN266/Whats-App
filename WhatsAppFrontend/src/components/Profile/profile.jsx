@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { Box, styled } from "@mui/system";
 import React, { useReducer } from "react";
-import { useStateValue } from "../Contextapi/StateProvider";
+
 const ImageContainer = styled(Box)`
   display: flex;
   justify-content: center;
@@ -36,17 +36,16 @@ const DescripstionContainer=styled(Box)`
      }
 `;
 function Profile() {
-  const [{ user }] = useStateValue();
-  console.log(user);
+ 
   return (
     <>
       <ImageContainer>
-        <Image src={user.photoURL} alt="dp" />
+        <Image  alt="dp" />
       </ImageContainer>
 
       <BoxWrapper>
         <Typography>Your name</Typography>
-        <Typography>{user.displayName}</Typography>
+        <Typography>Sharun </Typography>
       </BoxWrapper>
       <DescripstionContainer>
         <Typography>

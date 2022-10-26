@@ -10,15 +10,15 @@ import {
 
 import SideBarChat from "../SideBarChat/SideBarChat";
 import InfoDrawerBar from "../drawer/InfoDrawerBar";
-import { useStateValue } from "../Contextapi/StateProvider";
+
 
 const Sidebar = () => {
    const [openDrawer,setOpenDrawer]=useState(false)
-   const [{user}]=useStateValue()
+  
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar src={user.photoURL} onClick={()=>setOpenDrawer(true)} />
+        <Avatar  onClick={()=>setOpenDrawer(true)} />
         <div className="sidebar__headerRight">
           <IconButton>
             <DonutLarge />

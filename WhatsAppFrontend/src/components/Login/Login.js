@@ -3,39 +3,38 @@ import "./Login.css";
 import { auth, provider } from "../../firebase";
 import { signInWithPopup } from "firebase/auth";
 import GoogleButton from "react-google-button";
-import { useStateValue } from "../Contextapi/StateProvider";
-import { actionTypes } from "../Contextapi/reducer";
+import { useContext } from "react";
+import { AccountContext } from "../Contextapi/account";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [state, dispatch] = useStateValue();
-  
-  console.log(state);
+
+  const {setAccount,showloginButon,setShowloginButton}=useContext(AccountContext)
   const signup = async (e) => {
     e.preventDefault();
+
     try {
       let value = await signInWithPopup(auth, provider);
-      dispatch({
-        type: actionTypes.SET_USER,
-        user: value.user,
-      });
+      console.log(value.user.accessToken)
+      document.cookie=`GoogleSharunAuth=${value.user.accessToken}`
+      setAccount(value)
+      
+      setShowloginButton(false)
     } catch (err) {
       console.log(err);
     }
   };
   return (
     <div className="login">
-    
       <div className="login__container">
-      <h1  >
-            Sign in to <span> whatsApp </span>
-          </h1>
+        <h1>
+          Sign in to <span> whatsApp </span>
+        </h1>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/765px-WhatsApp.svg.png"
           alt="whatsapp"
         />
-        <div className="login__text">
-          
-        </div>
+        <div className="login__text"></div>
         <div className="login__button">
           <GoogleButton className="g-btn" type="dark" onClick={signup} />
         </div>
