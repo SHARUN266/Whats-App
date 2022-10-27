@@ -1,7 +1,7 @@
 import express from "express";
 
 import { getConversation, newConversation } from "./controller/conversation.controller.js";
-import { newMessage } from "./controller/message.controller.js";
+import { getMessages, newMessage } from "./controller/message.controller.js";
 import { addUser, getUser } from "./controller/user.controller.js";
 
 const route=express.Router();
@@ -24,6 +24,10 @@ route.post("/conversation/get",(req,res)=>{
 })
 route.post("/message/add",(req,res)=>{
   newMessage(req,res)
+})
+
+route.get("/messages/get/:id",(req,res)=>{
+  getMessages(req,res)
 })
 
 

@@ -12,7 +12,7 @@ import EmptyChat from "./EmptyChat";
 import Footer from "./Footer";
 import { useContext } from "react";
 import { AccountContext } from "../Contextapi/account";
-import { getConversation, newMessage } from "../service/api";
+import { getConversation, getMessages, newMessage } from "../service/api";
 
 
 const Chat = () => { 
@@ -20,6 +20,7 @@ const Chat = () => {
   const account=JSON.parse(localStorage.getItem("user"))
   const [conversation,setConversation]=useState({})
   const [value,setValue]=useState('')
+  const [messages,setMessages]=useState([])
   console.log(conversation)
   useEffect(()=>{
    
@@ -47,6 +48,13 @@ const Chat = () => {
     }
 
   }
+  useEffect(()=>{
+    const getMsg=async()=>{
+     let data = await getMessages(conversation._id)
+     setMessages(data)
+    }
+    conversation._id && getMsg()
+  },[person._id,conversation._id])
 
   return (
     <div className="chat">
@@ -73,20 +81,30 @@ const Chat = () => {
         </div>
       </div>
       <div className="chat__body">
-         {/* {messages.map((messages, index) => (
+          {messages&& messages.map((messages, index) => (
+            <>
           <p
-            className={`chat__message ${
-              messages.uid === user.uid && "chat_receiver"
-            }`}
-            key={messages._id}
+            className={`chat__message `}
+         
           >
-            <span className="chat__name">{messages.name}</span>
-            {messages.message}
+            <span className="chat__name">Hello!</span>
+            {/* {messages.message} */}
             <span className="chat__timestamp">
-              {new Date(messages.timestamp).toString().slice(0, 25)}
+              {/* {new Date(messages.timestamp).toString().slice(0, 25)} */}
             </span>
-          </p> */}
-        {/* ))} */}
+          </p> 
+           <p
+            className={ "chat_receiver"}
+           
+          >
+            <span className="chat__name">Hello!</span>
+            {/* {messages.message} */}
+            <span className="chat__timestamp">
+              {/* {new Date(messages.timestamp).toString().slice(0, 25)} */}
+            </span>
+          </p> 
+         </>
+         ))} 
      </div> 
      <Footer sendText={sendText} value={value} setValue={setValue} />
           </>

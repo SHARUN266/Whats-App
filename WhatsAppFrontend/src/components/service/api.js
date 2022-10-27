@@ -44,4 +44,15 @@ export const newMessage=async(data)=>{
     }catch(e){
        return e.message
     }
+};
+
+
+export const getMessages=async(id)=>{
+
+  try{
+      let res=await axios.get(`${url}/messages/get/${id}`)
+      return res.data
+  }catch(e){
+     console.log(e.message)
+  }
 }
