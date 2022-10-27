@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, IconButton } from "@mui/material";
+import { Avatar, IconButton, Typography } from "@mui/material";
 import {
   AttachFile,
   InsertEmoticon,
@@ -10,19 +10,25 @@ import "./Chat.css";
 
 import EmptyChat from "./EmptyChat";
 import Footer from "./Footer";
+import { useContext } from "react";
+import { AccountContext } from "../Contextapi/account";
 
 
 const Chat = () => { 
-
+  const {person}=useContext(AccountContext)
 
 
   return (
     <div className="chat">
-      <div className="chat__header">
-        <Avatar/>
+      {
+        Object.keys(person).length?(
+          <>
+          <div className="chat__header">
+        <Avatar  src={person.photoURL}/>
         <div className="chat__headerInfo">
-          <h3>  Welcome to Whatsapp</h3>
-          <p>last seen {new Date(Date.now()).toString().slice(0, 25)}</p>
+          <h3>{person.displayName}</h3>
+          <Typography>Offline</Typography>
+          {/* <p>last seen {new Date(Date.now()).toString().slice(0, 25)}</p> */}
         </div>
         <div className="chat__headerRight">
           <IconButton>
@@ -52,8 +58,15 @@ const Chat = () => {
           </p> */}
         {/* ))} */}
      </div> 
-      <Footer/>
-      {/* <EmptyChat/> */}
+     <Footer/>
+          </>
+        ):(
+           <EmptyChat/> 
+        )
+      }
+      
+      
+    
     </div>
   );
 };
