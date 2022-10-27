@@ -9,14 +9,16 @@ import {
 import "./Chat.css";
 
 import EmptyChat from "./EmptyChat";
+import Footer from "./Footer";
 
 
-const Chat = () => {
+const Chat = () => { 
+
 
 
   return (
     <div className="chat">
-      {/* <div className="chat__header">
+      <div className="chat__header">
         <Avatar/>
         <div className="chat__headerInfo">
           <h3>  Welcome to Whatsapp</h3>
@@ -33,9 +35,9 @@ const Chat = () => {
             <MoreVert />
           </IconButton>
         </div>
-      </div> */}
-      {/* <div className="chat__body">
-        {/* {messages.map((messages, index) => (
+      </div>
+      <div className="chat__body">
+         {/* {messages.map((messages, index) => (
           <p
             className={`chat__message ${
               messages.uid === user.uid && "chat_receiver"
@@ -47,21 +49,11 @@ const Chat = () => {
             <span className="chat__timestamp">
               {new Date(messages.timestamp).toString().slice(0, 25)}
             </span>
-          </p>
-        ))} */}
-      {/* </div> */}
-      {/* <div className="chat__footer">
-        <InsertEmoticon />
-        <form>
-          <input
-            type="text"
-            placeholder="Message"
-           
-          />
-          <button > send message</button>
-        </form>
-      </div> */}
-      <EmptyChat/>
+          </p> */}
+        {/* ))} */}
+     </div> 
+      <Footer/>
+      {/* <EmptyChat/> */}
     </div>
   );
 };

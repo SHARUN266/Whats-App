@@ -1,6 +1,10 @@
-import { Typography } from "@mui/material";
+import { Delete, DeleteOutline } from "@mui/icons-material";
+import { IconButton, Typography } from "@mui/material";
 import { Box, styled } from "@mui/system";
+import { signOut } from "firebase/auth";
 import React, { useContext, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
 import { AccountContext } from "../Contextapi/account";
 
 const ImageContainer = styled(Box)`
@@ -27,7 +31,13 @@ const BoxWrapper = styled(Box)`
     color: #4a4a4a;
   }
 `;
-
+const LogOutWrapper = styled(Box)`
+  margin-top:15%;
+  
+  padding: 12px 30px 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  
+`;
 const DescripstionContainer=styled(Box)`
      padding:15px 20px 28px 30px;
      & > p {
@@ -37,7 +47,23 @@ const DescripstionContainer=styled(Box)`
      }
 `;
 function Profile() {
+
   let user=JSON.parse(localStorage.getItem("user"))
+  function LogOut(){
+   
+signOut(auth).then(() => {
+  // Sign-out successful.
+  
+  document.cookie = "GoogleSharunAuth" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  alert("Logout successfully")
+  localStorage.removeItem("user");
+  window.location.reload()
+}).catch((error) => {
+  // An error happened.
+  console.log("Clear")
+});
+
+  }
   return (
     <>
       <ImageContainer>
@@ -58,6 +84,11 @@ function Profile() {
         <Typography>About</Typography>
         <Typography>Eat! Code! Sleep! Repeat...</Typography>
       </BoxWrapper>
+      <LogOutWrapper>
+        <IconButton aria-label="delete" size="x-large" onClick={LogOut} >
+        <Delete color="red"/>
+        </IconButton>
+      </LogOutWrapper>
     </>
   );
 }

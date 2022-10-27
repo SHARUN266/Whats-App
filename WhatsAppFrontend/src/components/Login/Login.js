@@ -13,6 +13,7 @@ const Login = () => {
   const {setAccount,getuserFromLocalStore,showloginButon,setShowloginButton}=useContext(AccountContext)
   const signup = async (e) => {
     e.preventDefault();
+    
 
     try {
       let value = await signInWithPopup(auth, provider);
