@@ -1,21 +1,34 @@
 import conversation from "../model/conversation.js";
-export const newConversation=async(req,res)=>{
+export const newConversation = async (req, res) => {
+  try {
+    let senderId = req.body.senderId;
+    const receiveId = req.body.receiveId;
+    const exist = await conversation.findOne({
+      members: { $all: [senderId, receiveId] },
+    });
+    if (exist) {
+      return res.status(200).json("conversation already exists");
+    }
+    const newConversation = new conversation({
+      members: [senderId, receiveId],
+    });
 
-     try{
-        let senderId=req.body.senderId;
-        const receiveId=req.body.receiveId;
-        const exist =await conversation.findOne({members:{$all:[senderId,receiveId]}});
-        if(exist){
-            return res.status(200).json("conversation already exists")
-        }
-        const newConversation=new conversation({
-            members:[senderId,receiveId]
-        })
+    await newConversation.save();
+    return res.status(200).json("conversation saved successfully");
+  } catch (e) {
+    return res.status(404).json("Error", e.message);
+  }
+};
 
-        await newConversation.save();
-        return res.status(200).json("conversation saved successfully")
-
-     }catch(e){
-        return res.status(404).json("Error",e.message)
-     }
-}
+export const getConversation = async (req, res) => {
+  try {
+    let senderId = req.body.senderId;
+    const receiveId = req.body.receiveId;
+    const Conversation = await conversation.findOne({
+        members: { $all: [senderId, receiveId] },
+      });
+    return res.status(200).json(Conversation);
+  } catch (e) {
+    return res.status(400).json("Error", e.message);
+  }
+};

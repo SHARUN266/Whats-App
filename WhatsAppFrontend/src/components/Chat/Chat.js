@@ -12,11 +12,41 @@ import EmptyChat from "./EmptyChat";
 import Footer from "./Footer";
 import { useContext } from "react";
 import { AccountContext } from "../Contextapi/account";
+import { getConversation, newMessage } from "../service/api";
 
 
 const Chat = () => { 
   const {person}=useContext(AccountContext)
+  const account=JSON.parse(localStorage.getItem("user"))
+  const [conversation,setConversation]=useState({})
+  const [value,setValue]=useState('')
+  console.log(conversation)
+  useEffect(()=>{
+   
+    const getConversationDeatils=async()=>{
+      let data = await getConversation({senderId:account.uid,receiveId:person.uid});
+      setConversation(data)
+    }
+    getConversationDeatils()
+  },[person.uid])
+  const sendText=async(e)=>{
+    let code=e.which||e.keyCode;
+    
+    if(code==13){
+       let message={
+        senderId:account.uid,
+        receiverId:person.uid,
+        conversationId:conversation._id,
+        type:'text',
+        text:value
+       
+       }
+       // Function come
+       await newMessage(message)
+       setValue("")
+    }
 
+  }
 
   return (
     <div className="chat">
@@ -58,7 +88,7 @@ const Chat = () => {
           </p> */}
         {/* ))} */}
      </div> 
-     <Footer/>
+     <Footer sendText={sendText} value={value} setValue={setValue} />
           </>
         ):(
            <EmptyChat/> 

@@ -7,6 +7,7 @@ import {
   EmojiEmotionsOutlined,
 } from "@mui/icons-material";
 import { Box, styled, InputBase, IconButton } from "@mui/material";
+import { useState } from "react";
 
 const Container = styled(Box)`
   height: 55px;
@@ -40,7 +41,8 @@ const ClipIcon = styled(AttachFile)`
   transform: "rotate(40deg)";
 `;
 
-const Footer = () => {
+const Footer = ({sendText,setValue,value}) => {
+
   return (
     <Container>
       <IconButton>
@@ -55,8 +57,11 @@ const Footer = () => {
 
       <Search>
         <InputField
+          value={value}
           placeholder="Type a message"
           inputProps={{ "aria-label": "search" }}
+          onChange={(e)=>setValue(e.target.value)}
+          onKeyPress={(e)=>sendText(e)}
         />
       </Search>
       <IconButton>

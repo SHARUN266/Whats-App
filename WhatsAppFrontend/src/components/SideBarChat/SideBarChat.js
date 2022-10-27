@@ -9,7 +9,8 @@ import { setConversation } from "../service/api";
 
 
 const SideBarChat = ({props}) => {
-  const {setPerson,account}=useContext(AccountContext)
+  const {setPerson}=useContext(AccountContext)
+  const account=JSON.parse(localStorage.getItem("user"))
   async function UserGet(){
       setPerson(props)
       await setConversation({senderId:account.uid,receiveId:props.uid})
