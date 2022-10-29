@@ -13,6 +13,7 @@ import Footer from "./Footer";
 import { useContext } from "react";
 import { AccountContext } from "../Contextapi/account";
 import { getConversation, getMessages, newMessage } from "../service/api";
+import Message from "./messages";
 
 
 const Chat = () => { 
@@ -21,7 +22,7 @@ const Chat = () => {
   const [conversation,setConversation]=useState({})
   const [value,setValue]=useState('')
   const [messages,setMessages]=useState([])
-  console.log(conversation)
+ 
   useEffect(()=>{
    
     const getConversationDeatils=async()=>{
@@ -29,7 +30,14 @@ const Chat = () => {
       setConversation(data)
     }
     getConversationDeatils()
-  },[person.uid])
+
+    ///
+    const getMsg=async()=>{
+      let data = await getMessages(conversation._id)
+      setMessages(data)
+     }
+     conversation._id && getMsg()
+  },[person.uid,person._id,conversation._id,messages])
   const sendText=async(e)=>{
     let code=e.which||e.keyCode;
     
@@ -48,14 +56,7 @@ const Chat = () => {
     }
 
   }
-  useEffect(()=>{
-    const getMsg=async()=>{
-     let data = await getMessages(conversation._id)
-     setMessages(data)
-    }
-    conversation._id && getMsg()
-  },[person._id,conversation._id])
-
+ 
   return (
     <div className="chat">
       {
@@ -82,28 +83,8 @@ const Chat = () => {
       </div>
       <div className="chat__body">
           {messages&& messages.map((messages, index) => (
-            <>
-          <p
-            className={`chat__message `}
-         
-          >
-            <span className="chat__name">Hello!</span>
-            {/* {messages.message} */}
-            <span className="chat__timestamp">
-              {/* {new Date(messages.timestamp).toString().slice(0, 25)} */}
-            </span>
-          </p> 
-           <p
-            className={ "chat_receiver"}
-           
-          >
-            <span className="chat__name">Hello!</span>
-            {/* {messages.message} */}
-            <span className="chat__timestamp">
-              {/* {new Date(messages.timestamp).toString().slice(0, 25)} */}
-            </span>
-          </p> 
-         </>
+           <Message message={messages}/>
+          
          ))} 
      </div> 
      <Footer sendText={sendText} value={value} setValue={setValue} />
