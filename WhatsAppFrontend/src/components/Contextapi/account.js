@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useRef } from "react";
 
-
+import {io} from "socket.io-client"
 export const AccountContext = createContext(null);
 
 const AccountProvider = ({ children }) => {
@@ -9,8 +9,8 @@ const AccountProvider = ({ children }) => {
   const [showloginButton, setShowloginButton] = useState(true);
   const [showlogoutButton, setShowlogoutButton] = useState(false);
   const [person,setPerson]=useState({})
+  const [activeUsers,setActiveUsers]=useState([])
 
-  const [activeUsers, setActiveUsers] = useState([]);
 
   const [newMessageFlag, setNewMessageFlag] = useState(false);
   const getuserFromLocalStore=async()=>{
@@ -18,6 +18,10 @@ const AccountProvider = ({ children }) => {
    let user= await JSON.parse(localStorage.getItem("user"))
    setAccount(user)
   }
+   const socket=useRef();
+   useEffect(() => {
+    socket.current = io('ws://localhost:5000');
+  }, [socket])
 
   return (
     <AccountContext.Provider
@@ -31,6 +35,7 @@ const AccountProvider = ({ children }) => {
         showlogoutButton,
         setShowlogoutButton,
         isCookie,
+        socket,
         setIsCookie,
         activeUsers,
         setActiveUsers,

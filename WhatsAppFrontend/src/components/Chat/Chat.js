@@ -14,17 +14,37 @@ import { useContext } from "react";
 import { AccountContext } from "../Contextapi/account";
 import { getConversation, getMessages, newMessage } from "../service/api";
 import Message from "./messages";
+import { useRef } from "react";
 
 
 const Chat = () => { 
-  const {person}=useContext(AccountContext)
+  const {person,activeUsers,socket,setNewMessageFlag,newMessageFlag}=useContext(AccountContext)
   const account=JSON.parse(localStorage.getItem("user"))
   const [conversation,setConversation]=useState({})
   const [value,setValue]=useState('')
   const [messages,setMessages]=useState([]);
   const [file,setFile]=useState([]);
   const [Image,setImage]=useState("")
- 
+  const [incomingMessage,setIncommingMessage]=useState(null)
+  const scrollRef=useRef();
+  // Get Messages UseEffect
+  useEffect(()=>{
+    socket.current.on("getMessage",data=>{
+      console.log(data,"conversation data")
+      setIncommingMessage({
+        ...data,
+        createdAt:Date.now()
+      })
+
+    })
+
+  },[])
+  useEffect(()=>{
+       incomingMessage && conversation?.includes(incomingMessage.senderId) && 
+       setMessages(prev=>[...prev,incomingMessage])
+  },[incomingMessage,conversation])
+  
+  const receiverId = conversation?.members?.find(member => member !== account.uid);
   useEffect(()=>{
    
     const getConversationDeatils=async()=>{
@@ -35,30 +55,20 @@ const Chat = () => {
 
     ///
     const getMsg=async()=>{
-      let data = await getMessages(conversation._id)
+      let data = await getMessages(conversation?._id)
       setMessages(data)
      }
-     conversation._id && getMsg()
-  },[person.uid,person._id,conversation._id])
+     conversation?._id && getMsg()
+  },[person?.uid,person?._id,conversation?._id,newMessageFlag])
   // 
- 
+
   const sendText=async(e)=>{
     let code=e.which||e.keyCode;
     
     if(code==13){
       let message=[];
-      if(!file){
-       
-         message={
-          senderId:account.uid,
-          receiverId:person.uid,
-          conversationId:conversation._id,
-          type:'text',
-          text:value
-         
-         }
-      }else{
-         message={
+      if(file){
+        message={
           senderId:account.uid,
           receiverId:person.uid,
           conversationId:conversation._id,
@@ -66,27 +76,45 @@ const Chat = () => {
           text:Image
          
          }
+        
+      }else{
+        message={
+          senderId:account.uid,
+          receiverId:person.uid,
+          conversationId:conversation?._id,
+          type:'text',
+          text:value
+         
+         }
+        
       }
-      
+       socket.current.emit('sendMessage',message)
        // Function come
        await newMessage(message)
        setValue("")
        setFile("")
        setImage("")
+       setNewMessageFlag(prev=>!prev)
     }
 
   }
+  //
+  useEffect(()=>{
+    scrollRef.current?.scrollIntoView({behavior: "smooth", block: "end" })
+     
+  },[messages])
+
  
   return (
-    <div className="chat">
+    <div className="chat" >
       {
         Object.keys(person).length?(
           <>
           <div className="chat__header">
-        <Avatar  src={person.photoURL}/>
+        <Avatar  src={person?.photoURL}/>
         <div className="chat__headerInfo">
           <h3>{person.displayName}</h3>
-          <Typography>Offline</Typography>
+          <Typography>{activeUsers?.find(user=>user.uid==person.uid)?"Online":"Offline"}</Typography>
           {/* <p>last seen {new Date(Date.now()).toString().slice(0, 25)}</p> */}
         </div>
         <div className="chat__headerRight">
@@ -101,9 +129,9 @@ const Chat = () => {
           </IconButton>
         </div>
       </div>
-      <div className="chat__body">
+      <div   className="chat__body" >
           {messages  && messages.map((messages, index) => (
-           <Message key={messages.id} message={messages}/>
+           <Message scrollRef={scrollRef} key={messages.id} message={messages}/>
           
          ))} 
      </div> 

@@ -37,11 +37,11 @@ const Time = styled(Typography)`
   word-break: keep-all;
   margin-top: auto;
 `;
-function Message({ message }) {
+function Message({ message,scrollRef }) {
   const account = JSON.parse(localStorage.getItem("user"));
  
   return (
-    <>
+    <Box  ref={scrollRef}>
      {
             account.uid === message.senderId ? 
                 <Own>
@@ -56,7 +56,7 @@ function Message({ message }) {
                     }
                 </Wrapper>
         }
-    </>
+    </Box>
   );
 }
 const ImageMessage = ({ message }) => {

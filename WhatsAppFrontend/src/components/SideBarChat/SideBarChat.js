@@ -1,32 +1,89 @@
 import React, { useState } from "react";
-import "./SideBarChat.css";
-import { Avatar } from "@mui/material";
+
+import { Avatar, Typography, styled, Divider } from "@mui/material";
 
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AccountContext } from "../Contextapi/account";
-import { setConversation } from "../service/api";
+import { getConversation, setConversation } from "../service/api";
+import { useEffect } from "react";
+import { FormateDate } from "../utils/common-utils";
+import { Box } from "@mui/system";
+const Component = styled(Box)`
+  height: 45px;
+  display: flex;
+  padding: 13px 0;
+  cursor: pointer;
 
 
-const SideBarChat = ({props}) => {
-  const {setPerson}=useContext(AccountContext)
-  const account=JSON.parse(localStorage.getItem("user"))
-  async function UserGet(){
-      setPerson(props)
-      await setConversation({senderId:account.uid,receiveId:props.uid})
-   }
+  &:hover {
+    background-color: #cdcfd1;
+    transition: 1s;
+  }
+`;
 
+const Image = styled("img")({
+  width: 50,
+  height: 50,
+  objectFit: "cover",
+  borderRadius: "50%",
+  padding: "0 14px",
+});
+const Container = styled(Box)`
+  display: flex;
+`;
+
+const Timestamp = styled(Typography)`
+  font-size: 12px;
+  margin-left: auto;
+  color: #00000099;
+  margin-right: 20px;
+`;
+
+const Text = styled(Typography)`
+  display: block;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+`;
+const SideBarChat = ({ props }) => {
+  const [msg, setMsg] = useState({});
+  const { setPerson, newMessageFlag } = useContext(AccountContext);
+  const account = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    const getConversationAndDetails = async () => {
+      const data = await getConversation({
+        senderId: account.uid,
+        receiveId: props.uid,
+      });
+
+      setMsg({ text: data?.message, timestamp: data?.updatedAt });
+    };
+    getConversationAndDetails();
+  }, [newMessageFlag]);
+  async function UserGet() {
+    setPerson(props);
+    await setConversation({ senderId: account.uid, receiveId: props.uid });
+  }
 
   return (
-    <Link key={props.uid} to={`rooms/${props.uid}`} >
-    <div className="sidebarChat" onClick={UserGet}>
-      <Avatar src={props.photoURL} />
-      <div className="sidebarChat__info">
-        <h2>{props.displayName}</h2>
-      </div>
-    </div>
+    <Link key={props.uid} to={`rooms/${props.uid}`}>
+      <Divider variant="middle" />
+      <Component onClick={() => UserGet()}>
+        <Box>
+          <Image src={props.photoURL} alt="display picture" />
+        </Box>
+        <Box style={{ width: "100%" }}>
+          <Container>
+            <Typography>{props.displayName}</Typography>
+            {msg?.text && <Timestamp>{FormateDate(msg?.timestamp)}</Timestamp>}
+          </Container>
+          <Box>
+            <Text>{msg?.text?.includes("localhost") ? "media" : msg.text}</Text>
+          </Box>
+        </Box>
+      </Component>
     </Link>
-  )
+  );
 };
 
 export default SideBarChat;

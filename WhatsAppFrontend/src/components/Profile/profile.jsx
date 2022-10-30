@@ -47,7 +47,7 @@ const DescripstionContainer=styled(Box)`
      }
 `;
 function Profile() {
-
+  const {account,setAccount}=useContext(AccountContext)
   let user=JSON.parse(localStorage.getItem("user"))
   function LogOut(){
    
@@ -58,6 +58,7 @@ signOut(auth).then(() => {
   alert("Logout successfully")
   localStorage.removeItem("user");
   window.location.reload()
+  setAccount("")
 }).catch((error) => {
   // An error happened.
   console.log("Clear")

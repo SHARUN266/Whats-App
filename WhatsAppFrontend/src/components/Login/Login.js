@@ -17,13 +17,13 @@ const Login = () => {
 
     try {
       let value = await signInWithPopup(auth, provider);
-     
+       
       console.log(value.user)
       document.cookie=`GoogleSharunAuth=${value.user.accessToken}`
       await addUser(value.user)
       localStorage.setItem("user",JSON.stringify(value.user))
-      getuserFromLocalStore()
       
+      setAccount(value.data)
       setShowloginButton(false)
     } catch (err) {
       console.log(err);
