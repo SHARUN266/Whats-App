@@ -43,14 +43,15 @@ const ClipIcon = styled(AttachFile)`
   transform: "rotate(40deg)";
 `;
 
-const Footer = ({ sendText, setValue, value ,setFile,file}) => {
+const Footer = ({ sendText, setValue, value ,setFile,file,setImage}) => {
   useEffect(()=>{
       const getImage=async()=>{
         if(file){
           const data=new FormData()
           data.append("name",file.name)
           data.append("file",file);
-          await UploadFile(data)
+          let response=await UploadFile(data)
+          setImage(response.data)
         }
       }
       getImage()

@@ -1,6 +1,8 @@
+import GetAppIcon from '@mui/icons-material/GetApp';
 import { Box, Typography, styled } from "@mui/material";
 import React from "react";
-import { FormateDate } from "../utils/common-utils";
+import { iconPDF } from "../Constants/data";
+import { downloadMedia, FormateDate } from "../utils/common-utils";
 
 const Wrapper = styled(Box)`
   background: #ffffff;
@@ -37,21 +39,56 @@ const Time = styled(Typography)`
 `;
 function Message({ message }) {
   const account = JSON.parse(localStorage.getItem("user"));
+ 
   return (
     <>
-      {account.uid === message.senderId ? (
-        <Own>
-          <Text>{message.text}</Text>
-          <Time>{FormateDate(message.createdAt)}</Time>
-        </Own>
-      ) : (
-        <Wrapper>
-          <Text>{message.text}</Text>
-          <Time>{FormateDate(message.createdAt)}</Time>
-        </Wrapper>
-      )}
+     {
+            account.uid === message.senderId ? 
+                <Own>
+                    {
+                        message.type === 'file' ? <ImageMessage message={message} /> : <TextMessage message={message} />
+                    }
+                </Own>
+            : 
+                <Wrapper>
+                    {
+                        message.type === 'file' ? <ImageMessage message={message} /> : <TextMessage message={message} />
+                    }
+                </Wrapper>
+        }
     </>
   );
 }
+const ImageMessage = ({ message }) => {
+  return (
+    <div style={{ position: 'relative' }}>
+    {
+        message?.text?.includes('.pdf') ?
+            <div style={{ display: 'flex' }}>
+                <img src={iconPDF} alt="pdf-icon" style={{ width: 80 }} />
+                <Typography style={{ fontSize: 14 }} >{message.text.split("/").pop()}</Typography>
+            </div>
+        : 
+            <img style={{ width: 300, height: '100%', objectFit: 'cover' }} src={message.text} alt={message.text} />
+    }
+    <Time style={{ position: 'absolute', bottom: 0, right: 0 }}>
+        <GetAppIcon
+           onClick={(e)=>downloadMedia(e,message.text)} 
+            fontSize='small' 
+            style={{ marginRight: 10, border: '1px solid grey', borderRadius: '50%',cursor:"pointer" }} 
+        />
+        {FormateDate(message.createdAt)}
+    </Time>
+</div>
+  );
+};
+const TextMessage = ({ message }) => {
+  return (
+    <>
+      <Text>{message.text}</Text>
+      <Time>{FormateDate(message.createdAt)}</Time>
+    </>
+  );
+};
 
 export default Message;

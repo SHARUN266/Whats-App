@@ -22,7 +22,8 @@ const Chat = () => {
   const [conversation,setConversation]=useState({})
   const [value,setValue]=useState('')
   const [messages,setMessages]=useState([]);
-  const [file,setFile]=useState([])
+  const [file,setFile]=useState([]);
+  const [Image,setImage]=useState("")
  
   useEffect(()=>{
    
@@ -45,17 +46,33 @@ const Chat = () => {
     let code=e.which||e.keyCode;
     
     if(code==13){
-       let message={
-        senderId:account.uid,
-        receiverId:person.uid,
-        conversationId:conversation._id,
-        type:'text',
-        text:value
+      let message=[];
+      if(!file){
        
-       }
+         message={
+          senderId:account.uid,
+          receiverId:person.uid,
+          conversationId:conversation._id,
+          type:'text',
+          text:value
+         
+         }
+      }else{
+         message={
+          senderId:account.uid,
+          receiverId:person.uid,
+          conversationId:conversation._id,
+          type:"file",
+          text:Image
+         
+         }
+      }
+      
        // Function come
        await newMessage(message)
        setValue("")
+       setFile("")
+       setImage("")
     }
 
   }
@@ -90,7 +107,7 @@ const Chat = () => {
           
          ))} 
      </div> 
-     <Footer sendText={sendText} value={value} setValue={setValue} setFile={setFile} file={file} />
+     <Footer sendText={sendText} value={value} setValue={setValue} setFile={setFile} file={file} setImage={setImage} />
           </>
         ):(
            <EmptyChat/> 
