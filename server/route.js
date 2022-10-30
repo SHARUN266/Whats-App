@@ -30,5 +30,9 @@ route.get("/messages/get/:id",(req,res)=>{
   getMessages(req,res)
 })
 
+route.post("/file/upload",upload.single(),(req,res=>{
+
+}))
+
 
 export default route;

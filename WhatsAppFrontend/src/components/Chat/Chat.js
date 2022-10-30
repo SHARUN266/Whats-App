@@ -21,7 +21,8 @@ const Chat = () => {
   const account=JSON.parse(localStorage.getItem("user"))
   const [conversation,setConversation]=useState({})
   const [value,setValue]=useState('')
-  const [messages,setMessages]=useState([])
+  const [messages,setMessages]=useState([]);
+  const [file,setFile]=useState([])
  
   useEffect(()=>{
    
@@ -37,7 +38,9 @@ const Chat = () => {
       setMessages(data)
      }
      conversation._id && getMsg()
-  },[person.uid,person._id,conversation._id,messages])
+  },[person.uid,person._id,conversation._id])
+  // 
+ 
   const sendText=async(e)=>{
     let code=e.which||e.keyCode;
     
@@ -82,12 +85,12 @@ const Chat = () => {
         </div>
       </div>
       <div className="chat__body">
-          {messages&& messages.map((messages, index) => (
-           <Message message={messages}/>
+          {messages  && messages.map((messages, index) => (
+           <Message key={messages.id} message={messages}/>
           
          ))} 
      </div> 
-     <Footer sendText={sendText} value={value} setValue={setValue} />
+     <Footer sendText={sendText} value={value} setValue={setValue} setFile={setFile} file={file} />
           </>
         ):(
            <EmptyChat/> 

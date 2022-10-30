@@ -56,3 +56,11 @@ export const getMessages=async(id)=>{
      console.log(e.message)
   }
 }
+
+export const UploadFile=async(data)=>{
+  try{
+    return await axios.post(`${url}/file/upload`,data);
+  }catch(e){
+    console.log(e.message)
+  }
+}
