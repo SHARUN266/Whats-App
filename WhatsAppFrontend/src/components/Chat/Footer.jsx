@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-
+import EmojiPicker from 'emoji-picker-react';
 import {
   EmojiEmotions,
   AttachFile,
@@ -8,13 +8,13 @@ import {
   ImportContacts,
  
 } from "@mui/icons-material";
-import { Box, styled, InputBase, IconButton } from "@mui/material";
+import { Box, styled, InputBase, IconButton, Popover } from "@mui/material";
 import { useState } from "react";
 import { UploadFile } from "../service/api";
 const Container = styled(Box)`
   height: 55px;
   background: #ededed;
-  width: 100%;
+  width: 80%;
   display: flex;
   align-items: center;
   padding: 0 15px;
@@ -43,7 +43,7 @@ const ClipIcon = styled(AttachFile)`
   transform: "rotate(40deg)";
 `;
 
-const Footer = ({ sendText, setValue, value ,setFile,file,setImage}) => {
+const Footer = ({ sendText, setValue, value ,setFile,file,setImage,setSelectedEmoji,selectedEmoji}) => {
   useEffect(()=>{
       const getImage=async()=>{
         if(file){
@@ -62,12 +62,40 @@ const Footer = ({ sendText, setValue, value ,setFile,file,setImage}) => {
      setFile(e.target.files[0]);
      setValue(e.target.files[0].name)
   }
-  
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+
   return (
     <Container>
-      <IconButton>
+      
+      <IconButton aria-describedby={id}  onClick={handleClick}>
         <EmojiEmotionsOutlined />
       </IconButton>
+      <Popover
+       id={id}
+       open={open}
+       anchorEl={anchorEl}
+       onClose={handleClose}
+       anchorOrigin={{
+         vertical: 'right',
+         horizontal: 'right',
+       }}
+      >
+       <EmojiPicker
+       
+       />
+      </Popover>
       
         <label htmlFor="fileInput">
           <ClipIcon />

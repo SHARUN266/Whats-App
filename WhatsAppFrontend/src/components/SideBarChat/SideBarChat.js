@@ -59,8 +59,11 @@ const SideBarChat = ({ props }) => {
       });
       console.log(data,"coversation")
       setMsg({ text: data?.message, timestamp: data?.updatedAt });
+      
     };
     getConversationAndDetails();
+    
+
   }, [newMessageFlag]);
   async function UserGet() {
     setPerson(props);

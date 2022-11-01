@@ -27,6 +27,7 @@ const Chat = () => {
   const [Image, setImage] = useState();
   const [incomingMessage, setIncommingMessage] = useState(null);
   const scrollRef = useRef();
+  const [selectedEmoji, setSelectedEmoji] = useState("");
   // Get Messages UseEffect
   useEffect(() => {
     socket.current.on("getMessage", (data) => {
@@ -149,6 +150,8 @@ const Chat = () => {
             setValue={setValue}
             setFile={setFile}
             file={file}
+            selectedEmoji={selectedEmoji}
+            setSelectedEmoji={setSelectedEmoji}
             setImage={setImage}
           />
         </>
