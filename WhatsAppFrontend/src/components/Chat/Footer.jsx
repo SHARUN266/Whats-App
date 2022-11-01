@@ -50,15 +50,15 @@ const Footer = ({ sendText, setValue, value ,setFile,file,setImage}) => {
           const data=new FormData()
           data.append("name",file.name)
           data.append("file",file);
-          let response=await UploadFile(data)
-          setImage(response.data)
+          const response=await UploadFile(data)
+          setImage(response?.data)
         }
       }
       getImage()
   },[file])
  
   function onFileChange(e){
-    console.log(e.target.files[0].name)
+   
      setFile(e.target.files[0]);
      setValue(e.target.files[0].name)
   }
@@ -73,7 +73,7 @@ const Footer = ({ sendText, setValue, value ,setFile,file,setImage}) => {
           <ClipIcon />
         </label>
      
-      <input type="file" onChange={(e)=>onFileChange(e)} id="fileInput" style={{ display: "none" }} />
+      <input type="file" id="fileInput" onChange={(e)=>onFileChange(e)}  style={{ display: "none" }} />
 
       <Search>
         <InputField

@@ -11,17 +11,17 @@ const AccountProvider = ({ children }) => {
   const [person,setPerson]=useState({})
   const [activeUsers,setActiveUsers]=useState([])
 
-
+  const socket=useRef();
   const [newMessageFlag, setNewMessageFlag] = useState(false);
   const getuserFromLocalStore=async()=>{
  
    let user= await JSON.parse(localStorage.getItem("user"))
    setAccount(user)
   }
-   const socket=useRef();
+  
    useEffect(() => {
     socket.current = io('ws://localhost:5000');
-  }, [socket])
+  }, [])
 
   return (
     <AccountContext.Provider

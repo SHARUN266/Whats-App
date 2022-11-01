@@ -8,20 +8,32 @@ const Wrapper = styled(Box)`
   background: #ffffff;
   padding: 5px;
   max-width: 60%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  margin-top:5px;
   width: fit-content;
   display: flex;
-  border-radius: 10px;
+  border-radius: 5px;
   word-break: break-word;
+  &::after:{
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
 `;
 
 const Own = styled(Box)`
   background: #dcf8c6;
+  border-width: 0px 10px 10px 0;
   padding: 5px;
   max-width: 60%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
   width: fit-content;
   margin-left: auto;
+  margin-top:5px;
   display: flex;
-  border-radius: 10px;
+  border-radius: 5px;
   word-break: break-word;
 `;
 

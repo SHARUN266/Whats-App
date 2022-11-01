@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Avatar, Typography, styled, Divider } from "@mui/material";
-
+import MmsIcon from '@mui/icons-material/Mms';
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AccountContext } from "../Contextapi/account";
@@ -9,6 +9,7 @@ import { getConversation, setConversation } from "../service/api";
 import { useEffect } from "react";
 import { FormateDate } from "../utils/common-utils";
 import { Box } from "@mui/system";
+import { emptyProfilePicture } from "../Constants/data";
 const Component = styled(Box)`
   height: 45px;
   display: flex;
@@ -46,6 +47,7 @@ const Text = styled(Typography)`
   font-size: 14px;
 `;
 const SideBarChat = ({ props }) => {
+  const url=props.photoURL|| emptyProfilePicture
   const [msg, setMsg] = useState({});
   const { setPerson, newMessageFlag } = useContext(AccountContext);
   const account = JSON.parse(localStorage.getItem("user"));
@@ -55,7 +57,7 @@ const SideBarChat = ({ props }) => {
         senderId: account.uid,
         receiveId: props.uid,
       });
-
+      console.log(data,"coversation")
       setMsg({ text: data?.message, timestamp: data?.updatedAt });
     };
     getConversationAndDetails();
@@ -66,11 +68,11 @@ const SideBarChat = ({ props }) => {
   }
 
   return (
-    <Link key={props.uid} to={`rooms/${props.uid}`}>
+    <Link  to={`rooms/${props.uid}`}>
       <Divider variant="middle" />
-      <Component onClick={() => UserGet()}>
+      <Component key={props.uid} onClick={() => UserGet()}>
         <Box>
-          <Image src={props.photoURL} alt="display picture" />
+          <Image src={url} alt="display picture" />
         </Box>
         <Box style={{ width: "100%" }}>
           <Container>
@@ -78,7 +80,7 @@ const SideBarChat = ({ props }) => {
             {msg?.text && <Timestamp>{FormateDate(msg?.timestamp)}</Timestamp>}
           </Container>
           <Box>
-            <Text>{msg?.text?.includes("localhost") ? "media" : msg.text}</Text>
+            <Text>{msg?.text?.includes("localhost") ? <MmsIcon fontSize="small" /> : msg.text}</Text>
           </Box>
         </Box>
       </Component>

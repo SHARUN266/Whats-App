@@ -33,7 +33,7 @@ const BoxWrapper = styled(Box)`
 `;
 const LogOutWrapper = styled(Box)`
   margin-top:15%;
-  
+ 
   padding: 12px 30px 2px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   
@@ -86,9 +86,11 @@ signOut(auth).then(() => {
         <Typography>Eat! Code! Sleep! Repeat...</Typography>
       </BoxWrapper>
       <LogOutWrapper>
-        <IconButton aria-label="delete" size="x-large" onClick={LogOut} >
-        <Delete color="red"/>
+        <IconButton aria-label="delete"  style={{width:"100%"}} onClick={LogOut} >
+        <Delete style={{ color: "red" }}/>
+        <Typography>Logout</Typography>
         </IconButton>
+        
       </LogOutWrapper>
     </>
   );
