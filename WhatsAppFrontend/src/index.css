@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'poppins',sans-serif;
+}
+
+body {
+  margin: 0;
+ 
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+ ::-webkit-scrollbar{
+    width: 6px  !important;
+    height: 6px !important;
+}
+::-webkit-scrollbar-track{
+  background: hsla(0,0%,100%,.1);
+}
+::-webkit-scrollbar-thumb{
+  background: rgba(0, 0, 0, 0.208);
+}
