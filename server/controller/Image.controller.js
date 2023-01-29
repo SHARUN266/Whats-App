@@ -1,5 +1,6 @@
 import grid from "gridfs-stream";
 import mongoose from "mongoose";
+const xss = require('xss-clean');
 const url="http://localhost:8000";
 let gfs,gridfsBucket;
 const conn=mongoose.connection;
@@ -29,6 +30,7 @@ export const getImage=async(req,res)=>{
         readStream.pipe(res)
 
     }catch(e){
-        res.status(404).send(e.message)
+        const sanitizedErrorMessage = xss(e.message);
+        res.status(404).send(sanitizedErrorMessage);
     }
 }

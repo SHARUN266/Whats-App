@@ -1,5 +1,4 @@
 import "./App.css";
-
 import Login from "./components/Login/Login";
 import Chat from "./components/Chat/Chat";
 import Sidebar from "./components/SideBar/Sidebar";
@@ -7,28 +6,21 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useContext } from "react";
 import { AccountContext } from "./components/Contextapi/account";
 
-
 function App() {
- 
-  const { isCookie,setIsCookie } = useContext(AccountContext);
-  const cookieArr=document.cookie.split(";");
+  const { isCookie, setIsCookie } = useContext(AccountContext);
   
-  for(var i = 0; i < cookieArr.length; i++) {
-    var cookiePair = cookieArr[i].split("=");
-    
-    if(cookiePair[0].trim()=="GoogleSharunAuth"){
-      setIsCookie(true)
-    }else{
-      alert("You are not login!")
-    }
-    /* Removing whitespace at the beginning of the cookie name
-    and compare it with the given string */
-   
-}
+  // check for the existence of the cookie
+  const cookie = document.cookie.split(";").find(c => c.trim().startsWith("GoogleSharunAuth="));
+  
+  if (cookie) {
+    // if cookie exists, set isCookie to true
+    setIsCookie(true);
+  } else {
+    // if cookie does not exist, show an alert message
+    alert("You are not logged in!");
+  }
   return (
     <div className="app">
-    
-
       {!isCookie ? (
         <Login />
       ) : (

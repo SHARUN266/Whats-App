@@ -18,10 +18,10 @@ import { GetUser } from "../service/api";
 const Sidebar = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [text, setText] = useState("");
-  const {socket,setActiveUsers,account}=useContext(AccountContext)
+  const { socket, setActiveUsers, account } = useContext(AccountContext);
   let user = JSON.parse(localStorage.getItem("user"));
   const [addNewChat, setAddNewChat] = useState([]);
- 
+
   useEffect(() => {
     const fetchData = async () => {
       let res = await GetUser();
@@ -33,18 +33,16 @@ const Sidebar = () => {
 
     fetchData();
   }, [text]);
-  
-  useEffect(()=>{
-    
+
+  useEffect(() => {
     //
-  
-       socket.current.emit("addUser",user)
-       socket.current.on("getusers",(users)=>{
-       
-        setActiveUsers(users)
-       })
-     //
-  },[account])
+
+    socket.current.emit("addUser", user);
+    socket.current.on("getusers", (users) => {
+      setActiveUsers(users);
+    });
+    //
+  }, [account]);
 
   return (
     <div className="sidebar">
@@ -85,4 +83,4 @@ const Sidebar = () => {
 
 export default Sidebar;
 
-// key={room._id}
+
