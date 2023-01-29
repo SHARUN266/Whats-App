@@ -19,7 +19,7 @@ export const downloadMedia=(e,originalImage)=>{
          a.href=url;
          const nameSplit=originalImage.split("/")
          const dublicateName=nameSplit.pop();
-         a.download=""+dublicateName+""
+         a.download=""+dublicateName+"";
          document.body.appendChild(a);
          a.click();
          window.URL.revokeObjectURL(url)
@@ -30,6 +30,6 @@ export const downloadMedia=(e,originalImage)=>{
       })
 
    }catch(e){
-      console.log(e.message)
+      console.log('Error while downloading the image ',  e.message)
    }
 }

@@ -4,7 +4,8 @@ const url = "http://localhost:8000";
 
 export const addUser = async (data) => {
   try {
-    await axios.post(`${url}/add`, data);
+    let {data}=await axios.post(`${url}/add`, data);
+    return data
   } catch (e) {
     console.log(e.message);
   }
@@ -39,10 +40,10 @@ export const getConversation = async (data) => {
 
 export const newMessage=async(data)=>{
     try{
-      await axios.post(`${url}/message/add`,data)
+     return  await axios.post(`${url}/message/add`,data)
 
     }catch(e){
-       return e.message
+      console.log('Error while calling newConversations API ', e);
     }
 };
 
